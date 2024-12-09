@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.ui.input.pointer.motionEventSpy
+import androidx.compose.ui.text.font.FontWeight
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 
 //    primary = White,
@@ -88,14 +89,16 @@ fun ScaffoldExample() {
 fun AlarmContent(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "No Alarms",
+            text = "Alarm",
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.displaySmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
             color = MaterialTheme.colorScheme.onBackground
         )
     }
