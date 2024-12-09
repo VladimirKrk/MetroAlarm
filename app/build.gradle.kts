@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation (libs.androidx.activity.compose.v172 )
+    implementation (libs.material3 )
     implementation(libs.androidx.material)
     implementation(libs.ui)
     implementation(libs.ui.tooling.preview)

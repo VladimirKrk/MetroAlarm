@@ -3,75 +3,94 @@ package com.example.metroalarm
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-
+import androidx.compose.ui.input.pointer.motionEventSpy
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 
-// we app will have the
+//    primary = White,
+//    secondary = LightGray,
+//    tertiary = VibrantOrange,
+//    onTertiary = DarkGray,
+//    background = Black
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            MetroAlarmTheme {
-                MyScaffoldExample()
+            MetroAlarmTheme(darkTheme = true, dynamicColor = false) {
+                ScaffoldExample()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyScaffoldExample() {
+fun ScaffoldExample() {
+    var presses by remember { mutableIntStateOf(0) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Top App Bar") },
-                backgroundColor = Color.Blue,
-                contentColor = Color.White
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.tertiary,
+                ),
+                title = {
+                    Text("Edit")
+                }
             )
         },
         bottomBar = {
-            BottomAppBar {
-                Text("Bottom Bar", modifier = Modifier.padding(16.dp))
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.onTertiary,
+                contentColor = MaterialTheme.colorScheme.secondary,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = "Bottom app bar",
+                )
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* Handle click */ }) {
+            FloatingActionButton(onClick = { presses++ }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        isFloatingActionButtonDocked = false
-    ) { paddingValues ->
-        // Main content
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Hello, Scaffold!")
         }
+    ) { innerPadding ->
+        AlarmContent(Modifier.padding(innerPadding))
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    MetroAlarmTheme {
+fun AlarmContent(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "No Alarms",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
