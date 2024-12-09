@@ -3,6 +3,7 @@ package com.example.metroalarm
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -41,7 +42,8 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldExample() {
-    var presses by remember { mutableIntStateOf(0) }
+    var editPressed by remember { mutableStateOf(false) }
+    var addPressed by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -51,7 +53,16 @@ fun ScaffoldExample() {
                     titleContentColor = MaterialTheme.colorScheme.tertiary,
                 ),
                 title = {
-                    Text("Edit")
+                    Text("Edit",
+                        modifier = Modifier.clickable { editPressed =! editPressed })
+                },
+                actions = {
+                    IconButton(onClick = { addPressed =! addPressed }) {
+                        Icon(Icons.Default.Add,
+                            contentDescription = "Add",
+                            tint = MaterialTheme.colorScheme.tertiary)
+                    }
+
                 }
             )
         },
@@ -66,11 +77,6 @@ fun ScaffoldExample() {
                     textAlign = TextAlign.Center,
                     text = "Bottom app bar",
                 )
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
     ) { innerPadding ->
