@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.text.font.FontWeight
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 //    primary = White,
 //    secondary = LightGray,
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MetroAlarmTheme(darkTheme = true, dynamicColor = false) {
-                ScaffoldExample()
+                ScaffoldMain()
             }
         }
     }
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldExample() {
+fun ScaffoldMain() {
     var editPressed by remember { mutableStateOf(false) }
     var addPressed by remember { mutableStateOf(false) }
 
@@ -102,4 +104,17 @@ fun AlarmContent(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onBackground
         )
     }
+    Spacer(modifier = Modifier.height(8.dp))
+    AlarmList(SampleAlarms)
 }
+
+@Composable
+fun AlarmList(alarm: List<Alarm>){
+    LazyColumn {
+        items(alarm){ alarm ->
+            ShowAlarm(alarm)
+        }
+    }
+}
+//i want to create data class for my alarms
+// put them in the list and use them for LazyColumn
