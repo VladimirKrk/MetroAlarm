@@ -103,11 +103,11 @@ fun AlarmContent(modifier: Modifier = Modifier) {
             ),
             color = MaterialTheme.colorScheme.onBackground
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        AlarmList(SampleData.SampleAlarm)
     }
-    Spacer(modifier = Modifier.height(8.dp))
-    AlarmList(SampleAlarms)
 }
-
+//shits fire
 @Composable
 fun AlarmList(alarm: List<Alarm>){
     LazyColumn {
