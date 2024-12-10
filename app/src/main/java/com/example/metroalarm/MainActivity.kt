@@ -69,7 +69,7 @@ fun ScaffoldMain() {
 
                 }
             )
-        },
+        }/*,
         bottomBar = {
             BottomAppBar(
                 containerColor = MaterialTheme.colorScheme.onTertiary,
@@ -82,7 +82,7 @@ fun ScaffoldMain() {
                     text = "Bottom app bar",
                 )
             }
-        }
+        }*/
     ) { innerPadding ->
         AlarmContent(Modifier.padding(innerPadding))
     }
