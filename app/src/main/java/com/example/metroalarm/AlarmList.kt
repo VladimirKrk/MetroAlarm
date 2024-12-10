@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -38,7 +40,7 @@ data class Alarm(val alarmStation: String,val stationLine: String, val alarmType
 @Composable
 fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
     //connect the lines with line's logos
-    val lines = mapOf<String, Painter>(
+    val lines = mapOf(
         "1" to painterResource(R.drawable.l1),
         "2" to painterResource(R.drawable.l2),
         "3" to painterResource(R.drawable.l3),
@@ -55,17 +57,57 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
         "12" to painterResource(R.drawable.l12),
         "13" to painterResource(R.drawable.l12),
     )
+    var isChecked by remember { mutableStateOf(false)}
     Row(modifier = modifier
-        .padding(30.dp)
+        .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ){
         Image(
             painter = lines[alarm.stationLine]!!,
             contentDescription = "Line Icon",
             modifier = Modifier
-                .size(40.dp)
+                .size(68.dp)
                 .clip(CircleShape)
+                .padding(8.dp)
         )
-        Text(alarm.alarmStation, color = MaterialTheme.colorScheme.primary)
+        Text(alarm.alarmStation,
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+            .weight(1f))
+        WideThumbSwitch(
+            isChecked = isChecked,
+            onCheckedChange = { isChecked = it }
+        )
+
+
+    }
+}
+@Composable
+fun WideThumbSwitch(
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    //
+    val slideHeight = 30.dp
+    Box(
+        modifier = modifier
+            .width(60.dp) // Width of the switch
+            .height(slideHeight) // Height of the switch
+            .clip(RoundedCornerShape(50)) // Rounded edges for the track
+            .background(if (isChecked) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onTertiary) // Track color
+            .clickable { onCheckedChange(!isChecked) },
+        contentAlignment = if (isChecked) Alignment.CenterEnd else Alignment.CenterStart // Align the thumb
+    ) {
+        Box(
+            modifier = Modifier
+                .height(slideHeight-5.dp) // Make the thumb as tall as the track
+                .aspectRatio(1f) // Make it a square
+                .clip(RoundedCornerShape(50)) // Rounded edges for the thumb
+                .background(MaterialTheme.colorScheme.primary) // Thumb color
+
+        )
     }
 }
 

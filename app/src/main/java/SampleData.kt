@@ -3,6 +3,6 @@ package com.example.metroalarm
 object SampleData {
     val SampleAlarm = listOf(Alarm(
     "Baumanskaya", "3","Banner"
-    ), Alarm("Molodeznaya" , "3", "Banner")
+    ), Alarm("Molodeznaya" , "4a", "Banner")
     )
 }
