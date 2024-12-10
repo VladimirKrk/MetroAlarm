@@ -114,7 +114,7 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
-                modifier = modifier.padding(4.dp)
+                modifier = modifier.padding(4.dp),
             ){
                 Text("Cancel",
                     color = MaterialTheme.colorScheme.tertiary,
@@ -124,8 +124,12 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                         .clickable {
                             scope.launch { bottomSheetState.hide() }
                             onDismiss()
-                        })
-
+                        }
+                )
+                Text("Edit Alarm",
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.weight(1.1f)
+                )
                 Text("Save",
                     color = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
@@ -134,7 +138,8 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                             //Save station logic here
                             scope.launch { bottomSheetState.hide() }
                             onDismiss()
-                        })
+                        }
+                )
             }
             //TEXT FIELDS
             Row(
