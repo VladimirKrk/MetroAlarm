@@ -127,17 +127,14 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                     horizontalAlignment = Alignment.Start
 
                 ) {
-
-                    Button(modifier = Modifier.padding(bottom = buttonBottom),
-                        onClick = {
+                    Text("Cancel",
+                        color = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier
+                            .padding(bottom = buttonBottom)
+                            .clickable {
                             scope.launch { bottomSheetState.hide() }
                             onDismiss()
-                        }
-                    ) {
-                        Text("Cancel",
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                    }
+                        })
                     // First TextField
                     OutlinedTextField(
                         value = lineText,
@@ -156,16 +153,14 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                         .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
                     horizontalAlignment = Alignment.End
                 ) {
-                    Button(modifier = Modifier.padding(bottom = buttonBottom),
-                        onClick = {
-                            scope.launch { bottomSheetState.hide() }
-                            onDismiss()
-                        }
-                    ) {
-                        Text("Save",
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                    }
+                    Text("Save",
+                        color = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier
+                            .padding(bottom = buttonBottom)
+                            .clickable {
+                                scope.launch { bottomSheetState.hide() }
+                                onDismiss()
+                            })
                     // Second TextField
                     OutlinedTextField(
                         value = stationText,
