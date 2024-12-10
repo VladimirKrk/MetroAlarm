@@ -1,39 +1,32 @@
 package com.example.metroalarm
 
 import android.content.res.Configuration
-import androidx.compose.runtime.Composable
-import androidx.compose.foundation.layout.*
-import androidx.compose.ui.Modifier
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.metroalarm.ui.theme.MetroAlarmTheme
+import androidx.compose.ui.unit.dp
 
 data class Alarm(val alarmStation: String,val stationLine: String, val alarmType: String)
 // so i will pretend i have the logic in place
@@ -84,6 +77,13 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
 
     }
 }
+//all of this is needed for ThumbSwitch with these functions:
+//wide thumb
+//animations
+//not all snakes are venomous, but all are feared
+//the thumb stops 2.dp before the end
+//and 3.dp before the start
+//all looks good
 @Composable
 fun WideThumbSwitch(
     isChecked: Boolean,
@@ -92,7 +92,9 @@ fun WideThumbSwitch(
 ) {
     val slideHeight = 30.dp
     val trackWidth = 60.dp
-    val thumbOffset by animateDpAsState(targetValue = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp)
+    val thumbOffset by animateDpAsState(targetValue = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp,
+        label = ""
+    )
     Box(
         modifier = modifier
             .width(trackWidth) // Fixed width for the track
