@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -91,7 +92,7 @@ fun WideThumbSwitch(
 ) {
     val slideHeight = 30.dp
     val trackWidth = 60.dp
-
+    val thumbOffset by animateDpAsState(targetValue = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp)
     Box(
         modifier = modifier
             .width(trackWidth) // Fixed width for the track
@@ -108,7 +109,7 @@ fun WideThumbSwitch(
             modifier = Modifier
                 .size(slideHeight - 5.dp) // Ensure the thumb size remains consistent
                 .offset(
-                    x = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp
+                    x = thumbOffset
                 ) // Dynamically adjust thumb position
                 .clip(RoundedCornerShape(50)) // Rounded edges for the thumb
                 .background(MaterialTheme.colorScheme.primary) // Thumb color
