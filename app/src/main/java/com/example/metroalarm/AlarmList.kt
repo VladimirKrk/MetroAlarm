@@ -32,14 +32,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 
-data class Alarm(val alarmStation: String,val stationLine: Int, val alarmType: String)
+data class Alarm(val alarmStation: String,val stationLine: String, val alarmType: String)
 // so i will pretend i have the logic in place
 // and pass the name of the station as the alarmStation
 @Composable
 fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
-    val lines = mapOf<Int, Painter>(3 to painterResource(R.drawable.samlephoto))
+    //connect the lines with line's logos
+    val lines = mapOf<String, Painter>(
+        "1" to painterResource(R.drawable.l1),
+        "2" to painterResource(R.drawable.l2),
+        "3" to painterResource(R.drawable.l3),
+        "4" to painterResource(R.drawable.l4),
+        "4a" to painterResource(R.drawable.l4a),
+        "5" to painterResource(R.drawable.l5),
+        "6" to painterResource(R.drawable.l6),
+        "7" to painterResource(R.drawable.l7),
+        "8" to painterResource(R.drawable.l8),
+        "8a" to painterResource(R.drawable.l8a),
+        "9" to painterResource(R.drawable.l9),
+        "10" to painterResource(R.drawable.l10),
+        "11" to painterResource(R.drawable.l11),
+        "12" to painterResource(R.drawable.l12),
+        "13" to painterResource(R.drawable.l12),
+    )
     Row(modifier = modifier
-        .padding(10.dp)
+        .padding(30.dp)
     ){
         Image(
             painter = lines[alarm.stationLine]!!,
@@ -59,7 +76,7 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
 fun PreviewShowAlarm(){
     val sampleAlarm = Alarm(
         alarmStation = "Baumanskaya",
-        stationLine = 3,
+        stationLine = "3",
         alarmType = "Fire Alarm"
     )
     ShowAlarm(sampleAlarm)
