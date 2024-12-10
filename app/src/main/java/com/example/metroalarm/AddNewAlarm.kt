@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 import kotlinx.coroutines.launch
 
@@ -37,6 +38,8 @@ fun AddNewAlarm() {
 
     // Modal Bottom Sheet
     if (showBottomSheet) {
+        var lineText by rememberSaveable { mutableStateOf("") }
+        var stationText by rememberSaveable { mutableStateOf("") }
         ModalBottomSheet(
             onDismissRequest = { showBottomSheet = false },
             sheetState = bottomSheetState
@@ -44,9 +47,46 @@ fun AddNewAlarm() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .padding(306.dp)
             ) {
+                Row(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .padding(4.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(bottom = 4.dp, end = 8.dp,start = 4.dp),
+                        horizontalAlignment = Alignment.Start
+
+                    ) {
+                        // First TextField
+                        OutlinedTextField(
+                            value = stationText,
+                            onValueChange = { newText -> stationText = newText },
+                            label = { Text("Линия") },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        // Second TextField
+                        OutlinedTextField(
+                            value = stationText,
+                            onValueChange = { newText -> stationText = newText },
+                            label = { Text("Станция") },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true
+                        )
+                    }
+                }
                 Text("This is a bottom sheet!", style = MaterialTheme.typography.headlineMedium)
                 Button(
                     onClick = {

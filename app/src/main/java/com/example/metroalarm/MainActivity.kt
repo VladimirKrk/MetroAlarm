@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.launch
 
 //    primary = White,
@@ -95,7 +96,7 @@ fun ScaffoldMain() {
 @Composable
 fun AddNewAlarm(onDismiss: () -> Unit) {
     // State to control the visibility of the bottom sheet
-    val bottomSheetState = rememberModalBottomSheetState()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
     ModalBottomSheet(
@@ -108,7 +109,8 @@ fun AddNewAlarm(onDismiss: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("This is a bottom sheet!", style = MaterialTheme.typography.headlineMedium)
+            AlarmInput()
+            Spacer(Modifier.height(500.dp))
             Button(
                 onClick = {
                     scope.launch { bottomSheetState.hide() }
@@ -121,6 +123,50 @@ fun AddNewAlarm(onDismiss: () -> Unit) {
     }
 }
 
+@Composable
+fun AlarmInput(modifier: Modifier = Modifier) {
+    var lineText by rememberSaveable { mutableStateOf("") }
+    var stationText by rememberSaveable { mutableStateOf("") }
+
+    Row(
+        modifier = modifier
+            .padding(4.dp)
+            .padding(4.dp)
+    ) {
+        Column(
+            modifier = modifier
+                .weight(1f)
+                .padding(bottom = 4.dp, end = 8.dp,start = 4.dp),
+            horizontalAlignment = Alignment.Start
+
+        ) {
+            // First TextField
+            OutlinedTextField(
+                value = lineText,
+                onValueChange = { newText -> lineText = newText },
+                label = { Text("Линия") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+        }
+
+        Column(
+            modifier = modifier
+                .weight(1f)
+                .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+            // Second TextField
+            OutlinedTextField(
+                value = stationText,
+                onValueChange = { newText -> stationText = newText },
+                label = { Text("Станция") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+        }
+    }
+}
 //i want to create data class for my alarms
 // put them in the list and use them for LazyColumn
 
