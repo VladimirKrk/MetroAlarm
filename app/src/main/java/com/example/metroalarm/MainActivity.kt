@@ -113,10 +113,32 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            //BUTTONS AND TEXT FIELDS
+            Row(
+                modifier = modifier.padding(4.dp)
+            ){
+                Text("Cancel",
+                    color = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier
+                        .padding(start = 10.dp,bottom = buttonBottom)
+                        .weight(1f)
+                        .clickable {
+                            scope.launch { bottomSheetState.hide() }
+                            onDismiss()
+                        })
+
+                Text("Save",
+                    color = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier
+                        .padding(end = 10.dp,bottom = buttonBottom)
+                        .clickable {
+                            //Save station logic here
+                            scope.launch { bottomSheetState.hide() }
+                            onDismiss()
+                        })
+            }
+            //TEXT FIELDS
             Row(
                 modifier = modifier
-                    .padding(4.dp)
                     .padding(4.dp)
             ) {
                 //FIRST COLUMN
@@ -127,14 +149,6 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                     horizontalAlignment = Alignment.Start
 
                 ) {
-                    Text("Cancel",
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier
-                            .padding(bottom = buttonBottom)
-                            .clickable {
-                            scope.launch { bottomSheetState.hide() }
-                            onDismiss()
-                        })
                     // First TextField
                     OutlinedTextField(
                         value = lineText,
@@ -146,21 +160,12 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                 }
 
                 //SECOND COLUMN
-
                 Column(
                     modifier = modifier
                         .weight(1f)
                         .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
                     horizontalAlignment = Alignment.End
                 ) {
-                    Text("Save",
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier
-                            .padding(bottom = buttonBottom)
-                            .clickable {
-                                scope.launch { bottomSheetState.hide() }
-                                onDismiss()
-                            })
                     // Second TextField
                     OutlinedTextField(
                         value = stationText,
@@ -171,7 +176,7 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                     )
                 }
             }
-            Spacer(modifier.height(500.dp))
+            Spacer(modifier.height(600.dp))
         }
     }
 }
