@@ -89,27 +89,34 @@ fun WideThumbSwitch(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    //
     val slideHeight = 30.dp
+    val trackWidth = 60.dp
+
     Box(
         modifier = modifier
-            .width(60.dp) // Width of the switch
-            .height(slideHeight) // Height of the switch
+            .width(trackWidth) // Fixed width for the track
+            .height(slideHeight) // Fixed height for the track
             .clip(RoundedCornerShape(50)) // Rounded edges for the track
-            .background(if (isChecked) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onTertiary) // Track color
-            .clickable { onCheckedChange(!isChecked) },
-        contentAlignment = if (isChecked) Alignment.CenterEnd else Alignment.CenterStart // Align the thumb
+            .background(
+                if (isChecked) MaterialTheme.colorScheme.onSecondary
+                else MaterialTheme.colorScheme.onTertiary
+            ) // Track color changes based on state
+            .clickable { onCheckedChange(!isChecked) }, // Toggle state on click
+        contentAlignment = Alignment.CenterStart // Default alignment for the thumb
     ) {
         Box(
             modifier = Modifier
-                .height(slideHeight-5.dp) // Make the thumb as tall as the track
-                .aspectRatio(1f) // Make it a square
+                .size(slideHeight - 5.dp) // Ensure the thumb size remains consistent
+                .offset(
+                    x = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp
+                ) // Dynamically adjust thumb position
                 .clip(RoundedCornerShape(50)) // Rounded edges for the thumb
                 .background(MaterialTheme.colorScheme.primary) // Thumb color
-
         )
     }
 }
+
+
 
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES
