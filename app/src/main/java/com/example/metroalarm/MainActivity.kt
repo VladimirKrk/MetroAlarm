@@ -94,10 +94,14 @@ fun ScaffoldMain() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNewAlarm(onDismiss: () -> Unit) {
+fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
     // State to control the visibility of the bottom sheet
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
+    //vars for text fields
+    var lineText by rememberSaveable { mutableStateOf("") }
+    var stationText by rememberSaveable { mutableStateOf("") }
+    val buttonBottom = 36.dp
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -109,64 +113,65 @@ fun AddNewAlarm(onDismiss: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            AlarmInput()
-            Spacer(Modifier.height(500.dp))
-            Button(
-                onClick = {
-                    scope.launch { bottomSheetState.hide() }
-                    onDismiss()
-                }
+            //BUTTONS AND TEXT FIELDS
+            Row(
+                modifier = modifier
+                    .padding(4.dp)
+                    .padding(4.dp)
             ) {
-                Text("Close")
+                Column(
+                    modifier = modifier
+                        .weight(1f)
+                        .padding(bottom = 4.dp, end = 8.dp,start = 4.dp),
+                    horizontalAlignment = Alignment.Start
+
+                ) {
+                    Button(modifier = Modifier.padding(bottom = buttonBottom),
+                        onClick = {
+                            scope.launch { bottomSheetState.hide() }
+                            onDismiss()
+                        }
+                    ) {
+                        Text("Close")
+                    }
+                    // First TextField
+                    OutlinedTextField(
+                        value = lineText,
+                        onValueChange = { newText -> lineText = newText },
+                        label = { Text("Линия") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
+                }
+
+                Column(
+                    modifier = modifier
+                        .weight(1f)
+                        .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Button(modifier = Modifier.padding(bottom = buttonBottom),
+                        onClick = {
+                            scope.launch { bottomSheetState.hide() }
+                            onDismiss()
+                        }
+                    ) {
+                        Text("Close")
+                    }
+                    // Second TextField
+                    OutlinedTextField(
+                        value = stationText,
+                        onValueChange = { newText -> stationText = newText },
+                        label = { Text("Станция") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
+                }
             }
         }
     }
 }
 
-@Composable
-fun AlarmInput(modifier: Modifier = Modifier) {
-    var lineText by rememberSaveable { mutableStateOf("") }
-    var stationText by rememberSaveable { mutableStateOf("") }
-
-    Row(
-        modifier = modifier
-            .padding(4.dp)
-            .padding(4.dp)
-    ) {
-        Column(
-            modifier = modifier
-                .weight(1f)
-                .padding(bottom = 4.dp, end = 8.dp,start = 4.dp),
-            horizontalAlignment = Alignment.Start
-
-        ) {
-            // First TextField
-            OutlinedTextField(
-                value = lineText,
-                onValueChange = { newText -> lineText = newText },
-                label = { Text("Линия") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-        }
-
-        Column(
-            modifier = modifier
-                .weight(1f)
-                .padding(bottom = 4.dp,start = 8.dp, end = 4.dp),
-            horizontalAlignment = Alignment.End
-        ) {
-            // Second TextField
-            OutlinedTextField(
-                value = stationText,
-                onValueChange = { newText -> stationText = newText },
-                label = { Text("Станция") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-        }
-    }
-}
 //i want to create data class for my alarms
 // put them in the list and use them for LazyColumn
 
