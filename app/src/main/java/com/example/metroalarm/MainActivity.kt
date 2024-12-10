@@ -123,3 +123,22 @@ fun AddNewAlarm(onDismiss: () -> Unit) {
 
 //i want to create data class for my alarms
 // put them in the list and use them for LazyColumn
+
+//TODO()
+//List of the alarms for everything to function
+//BottomSheet :
+//  i need to create fully working bottom sheet logic
+//  on top there should be two buttons:Cancel and Save
+//  one will close the bottom sheet, the over one will save the alarm to the list
+//  the lines and stations will be gathered from two text fields
+//  later i should implement the changes to the type of alarm
+//Edit button
+//  Logic of the edit button
+//  with (-) icon on the side of the stations
+//  which will delete specific alarms from the list
+//Understand what do i need to do with alarms
+//  types of alarms,maybe banners all of that
+//The main idea of the app:
+//  add the gps location to the app
+//  every station connect with it's location
+//  add logic about alarm going of at the specific location
