@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import kotlinx.coroutines.launch
 
 //    primary = White,
 //    secondary = LightGray,
@@ -85,8 +86,40 @@ fun ScaffoldMain() {
     ) { innerPadding ->
         AlarmContent(Modifier.padding(innerPadding))
     }
+    if (addPressed){
+        AddNewAlarm(onDismiss = { addPressed = false })
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddNewAlarm(onDismiss: () -> Unit) {
+    // State to control the visibility of the bottom sheet
+    val bottomSheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = bottomSheetState
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text("This is a bottom sheet!", style = MaterialTheme.typography.headlineMedium)
+            Button(
+                onClick = {
+                    scope.launch { bottomSheetState.hide() }
+                    onDismiss()
+                }
+            ) {
+                Text("Close")
+            }
+        }
+    }
+}
 
 //i want to create data class for my alarms
 // put them in the list and use them for LazyColumn
