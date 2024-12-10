@@ -87,34 +87,6 @@ fun ScaffoldMain() {
     }
 }
 
-@Composable
-fun AlarmContent(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.Top,
-    ) {
-        Text(
-            text = "Alarm",
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.displaySmall.copy(
-                fontWeight = FontWeight.Bold
-            ),
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        AlarmList(SampleData.SampleAlarm)
-    }
-}
-//shits fire
-@Composable
-fun AlarmList(alarm: List<Alarm>){
-    LazyColumn {
-        items(alarm){ alarm ->
-            ShowAlarm(alarm)
-        }
-    }
-}
+
 //i want to create data class for my alarms
 // put them in the list and use them for LazyColumn
