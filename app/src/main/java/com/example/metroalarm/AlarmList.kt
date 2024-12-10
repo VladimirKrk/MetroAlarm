@@ -147,6 +147,7 @@ fun AlarmContent(modifier: Modifier = Modifier) {
         AlarmList(SampleData.SampleAlarm)
     }
 }
+
 //fire
 @Composable
 fun AlarmList(alarm: List<Alarm>){

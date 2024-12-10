@@ -14,55 +14,49 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldExample() {
-    var presses by remember { mutableIntStateOf(0) }
+fun AddNewAlarm() {
+    // State to control the visibility of the bottom sheet
+    val bottomSheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
-                title = {
-                    Text("Top App Bar")
-                }
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary
-            ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom App Bar"
-                )
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
+    // Main content
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { showBottomSheet = true }) {
+            Text("Show Bottom Sheet")
         }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    }
+
+    // Modal Bottom Sheet
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            sheetState = bottomSheetState
         ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = """
-                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
-
-                    It also contains some basic inner content, such as this text.
-
-                    You have pressed the floating action button $presses times.
-                """.trimIndent()
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text("This is a bottom sheet!", style = MaterialTheme.typography.headlineMedium)
+                Button(
+                    onClick = {
+                        scope.launch { bottomSheetState.hide() }
+                        showBottomSheet = false
+                    }
+                ) {
+                    Text("Close")
+                }
+            }
         }
     }
 }
