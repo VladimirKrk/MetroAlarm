@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-data class Alarm(val alarmStation: String,val stationLine: String, val alarmType: String)
 // so i will pretend i have the logic in place
 // and pass the name of the station as the alarmStation
 @Composable
@@ -144,7 +143,7 @@ fun AlarmContent(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(8.dp))
-        AlarmList(SampleData.SampleAlarm)
+        AlarmList(AlarmManager.getAlarms())
     }
 }
 
