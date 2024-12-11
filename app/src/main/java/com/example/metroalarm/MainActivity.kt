@@ -136,6 +136,8 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
                         .padding(end = 10.dp,bottom = buttonBottom)
                         .clickable {
                             //Save station logic here
+                            AlarmManager.addAlarm(Alarm(stationText,lineText,"Banner"))
+                            AlarmManager.saveToFile()
                             scope.launch { bottomSheetState.hide() }
                             onDismiss()
                         }

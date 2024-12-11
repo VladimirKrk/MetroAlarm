@@ -1,7 +1,9 @@
 package com.example.metroalarm
 import androidx.compose.runtime.mutableStateListOf
 import java.io.File
+import android.util.Log
 
+const val NameOfFile = "ListOfAlarms.txt"
 // Alarm class for simplicity
 data class Alarm(val alarmStation: String, val stationLine: String, val alarmType: String)
 
@@ -19,22 +21,30 @@ object AlarmManager {
     }
 
     // Saves the alarms to a file in plain text
-    fun saveToFile(filePath: String) {
+    fun saveToFile(fileName: String = NameOfFile) {
         try {
-            val file = File(filePath)
+            // Ensure the directory exists
+            val directory = File("/data/data/com.example.metroalarm/files")
+            if (!directory.exists()) {
+                directory.mkdirs()
+            }
+
+            // Write the file
+            val file = File(directory, fileName)
+            Log.d("AlarmManager", "Attempting to save to file: ${file.absolutePath}")
+
             file.printWriter().use { writer ->
                 alarms.forEach { alarm ->
-                    // Save as "station,line,type" format
                     writer.println("${alarm.alarmStation},${alarm.stationLine},${alarm.alarmType}")
                 }
             }
+            Log.d("AlarmManager", "File saved successfully.")
         } catch (e: Exception) {
-            println("Error saving to file: ${e.message}")
+            Log.e("AlarmManager", "Error saving to file: ${e.message}", e)
         }
     }
-
     // Loads alarms from a file
-    fun loadFromFile(filePath: String) {
+    fun loadFromFile(filePath: String = NameOfFile) {
         try {
             val file = File(filePath)
             if (file.exists()) {
