@@ -8,4 +8,4 @@ val VibrantOrange = Color(0xFFFF9500) // iPhone-style orange
 val LightGray = Color(0xFFB3B3B3)
 val White = Color(0xFFFFFFFF)
 val GreenApple = Color(0xFF34C759)
-
+val Red = Color(0xFFFF3B30)

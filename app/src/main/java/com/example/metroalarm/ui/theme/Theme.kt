@@ -21,7 +21,8 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = GreenApple,
     tertiary = VibrantOrange,
     onTertiary = DarkGray,
-    background = Black
+    background = Black,
+    onBackground = Red
 )
 
 private val LightColorScheme = lightColorScheme(

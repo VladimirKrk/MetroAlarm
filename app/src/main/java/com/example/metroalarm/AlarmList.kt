@@ -33,13 +33,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.ui.unit.dp
 
 // so i will pretend i have the logic in place
 // and pass the name of the station as the alarmStation
 @Composable
-fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
+fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
     //connect the lines with line's logos
     val lines = mapOf(
         "1" to painterResource(R.drawable.l1),
@@ -63,6 +66,19 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier){
         .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
+        if (onEdit){
+            Icon(
+                imageVector = Icons.Default.RemoveCircle,
+                contentDescription = "Remove Icon",
+                tint = MaterialTheme.colorScheme.onBackground, // Optional: Change icon color
+                modifier = Modifier
+                    .size(36.dp) // Optional: Adjust icon size
+                    .clickable {
+                        AlarmManager.deleteAlarm(alarm)
+                        AlarmManager.saveToFile()
+                    } // Add the clickable behavior
+            )
+        }
         Image(
             painter = lines[alarm.stationLine]!!,
             contentDescription = "Line Icon",
@@ -127,7 +143,7 @@ fun WideThumbSwitch(
 }
 
 @Composable
-fun AlarmContent(modifier: Modifier = Modifier) {
+fun AlarmContent(modifier: Modifier = Modifier, onEdit: Boolean) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -140,19 +156,19 @@ fun AlarmContent(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.displaySmall.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
-        AlarmList(AlarmManager.getAlarms())
+        AlarmList(AlarmManager.getAlarms(), onEdit)
     }
 }
 
 //fire
 @Composable
-fun AlarmList(alarm: List<Alarm>){
+fun AlarmList(alarm: List<Alarm>, onEdit: Boolean){
     LazyColumn {
         items(alarm){ alarm ->
-            ShowAlarm(alarm)
+            ShowAlarm(alarm,Modifier,onEdit)
         }
     }
 }

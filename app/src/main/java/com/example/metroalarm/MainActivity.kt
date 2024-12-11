@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.text.font.FontWeight
 import com.example.metroalarm.ui.theme.MetroAlarmTheme
@@ -86,7 +87,7 @@ fun ScaffoldMain() {
             }
         }*/
     ) { innerPadding ->
-        AlarmContent(Modifier.padding(innerPadding))
+        AlarmContent(Modifier.padding(innerPadding), editPressed)
     }
     if (addPressed){
         AddNewAlarm(onDismiss = { addPressed = false })
