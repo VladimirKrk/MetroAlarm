@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AlarmManager.loadFromFile()
         setContent {
             MetroAlarmTheme(darkTheme = true, dynamicColor = false) {
                 ScaffoldMain()
@@ -192,8 +193,8 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
 // put them in the list and use them for LazyColumn
 
 //TODO()
-//List of the alarms for everything to function
-//BottomSheet :
+//✔️ List of the alarms for everything to function -
+//✔️BottomSheet :
 //  i need to create fully working bottom sheet logic
 //  on top there should be two buttons:Cancel and Save
 //  one will close the bottom sheet, the over one will save the alarm to the list

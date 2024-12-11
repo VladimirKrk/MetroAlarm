@@ -44,23 +44,24 @@ object AlarmManager {
         }
     }
     // Loads alarms from a file
-    fun loadFromFile(filePath: String = NameOfFile) {
+    fun loadFromFile(fileName: String = NameOfFile) {
         try {
-            val file = File(filePath)
-            if (file.exists()) {
-                val loadedAlarms = file.readLines().mapNotNull { line ->
-                    val parts = line.split(",")
-                    if (parts.size == 3) {
-                        Alarm(parts[0], parts[1], parts[2]) // Recreate Alarm object
-                    } else {
-                        null // Skip malformed lines
-                    }
-                }
-                alarms.clear()
-                alarms.addAll(loadedAlarms)
+            val file = File("/data/data/com.example.metroalarm/files", fileName)
+            if (!file.exists()) {
+                Log.d("AlarmManager", "File not found: $fileName")
+                return
             }
+
+            val loadedAlarms = file.readLines().map { line ->
+                val parts = line.split(",")
+                Alarm(parts[0], parts[1], parts[2])
+            }
+
+            alarms.clear()
+            alarms.addAll(loadedAlarms)
+            Log.d("AlarmManager", "Loaded alarms: $alarms")
         } catch (e: Exception) {
-            println("Error loading from file: ${e.message}")
+            Log.e("AlarmManager", "Error loading from file: ${e.message}", e)
         }
     }
 
