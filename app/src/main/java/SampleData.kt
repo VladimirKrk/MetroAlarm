@@ -3,7 +3,7 @@ import androidx.compose.runtime.mutableStateListOf
 import java.io.File
 import android.util.Log
 
-const val NameOfFile = "ListOfAlarms.txt"
+const val NameOfFile = "ListOfAlarms1.txt"
 // Alarm class for simplicity
 data class Alarm(val alarmStation: String, val stationLine: String, val alarmType: String)
 

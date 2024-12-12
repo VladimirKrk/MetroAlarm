@@ -64,7 +64,7 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
         "10" to painterResource(R.drawable.l10),
         "11" to painterResource(R.drawable.l11),
         "12" to painterResource(R.drawable.l12),
-        "13" to painterResource(R.drawable.l12),
+
     )
     var isChecked by remember { mutableStateOf(false)}
     var isRemoving by remember { mutableStateOf(false) }
