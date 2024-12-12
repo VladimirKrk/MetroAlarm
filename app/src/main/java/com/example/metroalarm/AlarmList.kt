@@ -1,6 +1,7 @@
 package com.example.metroalarm
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,10 +38,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.RemoveCircle
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
 
 // so i will pretend i have the logic in place
 // and pass the name of the station as the alarmStation
+//AlarmManager.deleteAlarm(alarm)
+//AlarmManager.saveToFile()
 @Composable
 fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
     //connect the lines with line's logos
@@ -62,8 +66,14 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
         "13" to painterResource(R.drawable.l12),
     )
     var isChecked by remember { mutableStateOf(false)}
+    var isRemoving by remember { mutableStateOf(false) }
+    val animatedColor by animateColorAsState(
+        targetValue = if (isRemoving) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.background,
+        label = "Alarm Removal Color"
+    )
     Row(modifier = modifier
-        .padding(vertical = 4.dp),
+        .padding(vertical = 4.dp)
+        .background(color = animatedColor),
         verticalAlignment = Alignment.CenterVertically
     ){
         if (onEdit){
@@ -74,8 +84,7 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
                 modifier = Modifier
                     .size(36.dp) // Optional: Adjust icon size
                     .clickable {
-                        AlarmManager.deleteAlarm(alarm)
-                        AlarmManager.saveToFile()
+                        isRemoving = true
                     } // Add the clickable behavior
             )
         }
@@ -96,8 +105,14 @@ fun ShowAlarm(alarm: Alarm,modifier: Modifier = Modifier,onEdit: Boolean){
             isChecked = isChecked,
             onCheckedChange = { isChecked = it }
         )
-
-
+    }
+    if (isRemoving) {
+        LaunchedEffect(alarm) {
+            kotlinx.coroutines.delay(200) // Adjust duration as needed for the animation to complete
+            AlarmManager.deleteAlarm(alarm)
+            AlarmManager.saveToFile()
+            isRemoving = false
+        }
     }
 }
 //all of this is needed for ThumbSwitch with these functions:
