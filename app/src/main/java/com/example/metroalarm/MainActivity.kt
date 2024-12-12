@@ -208,9 +208,14 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
 //  Logic of the edit button
 //  with (-) icon on the side of the stations
 //  which will delete specific alarms from the list
+//Error handling is needed
+//  Empty alarm ( Add alarm/ Save and not cancel)
+//  Wrong line or wrong station
 //Understand what do i need to do with alarms
 //  types of alarms,maybe banners all of that
 //The main idea of the app:
 //  add the gps location to the app
 //  every station connect with it's location
 //  add logic about alarm going of at the specific location
+//  check if the user is in the metro speed/time
+//  it will probably be triggered while using a car
