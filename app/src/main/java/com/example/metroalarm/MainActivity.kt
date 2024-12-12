@@ -64,7 +64,10 @@ fun ScaffoldMain() {
                         modifier = Modifier.clickable { editPressed =! editPressed })
                 },
                 actions = {
-                    IconButton(onClick = { addPressed =! addPressed }) {
+                    IconButton(onClick = {
+                        addPressed =! addPressed
+                        editPressed = false
+                    }) {
                         Icon(Icons.Default.Add,
                             contentDescription = "Add",
                             tint = MaterialTheme.colorScheme.tertiary)
@@ -201,7 +204,7 @@ fun AddNewAlarm(modifier: Modifier = Modifier,onDismiss: () -> Unit) {
 //  one will close the bottom sheet, the over one will save the alarm to the list
 //  the lines and stations will be gathered from two text fields
 //  later i should implement the changes to the type of alarm
-//Edit button
+//✔️Edit button
 //  Logic of the edit button
 //  with (-) icon on the side of the stations
 //  which will delete specific alarms from the list
