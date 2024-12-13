@@ -53,6 +53,31 @@ class NotificationHelper(private val context: Context) {
             Toast.makeText(context, "Notification permission not granted", Toast.LENGTH_SHORT).show()
         }
     }
+    fun showHeadsUpNotification(title: String, message: String) {
+        val context = context // Use your activity or application context
+
+        // Define the notification channel ID (should match the one in NotificationHelper)
+        val channelId = "heads_up_channel"
+
+        // Create the notification
+        val notification = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(android.R.drawable.ic_dialog_info) // Replace with your app's icon
+            .setContentTitle(title) // Title of the notification
+            .setContentText(message) // Body of the notification
+            .setPriority(NotificationCompat.PRIORITY_HIGH) // Ensures heads-up behavior
+            .setAutoCancel(true) // Dismiss notification when clicked
+            .setVibrate(longArrayOf(0, 500, 200, 500)) // Vibration pattern
+            .setDefaults(NotificationCompat.DEFAULT_ALL) // Default sound, vibration, and lights
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message)) // Optional: Expandable notification
+            .build()
+
+        // Show the notification
+        if (checkNotificationPermission()) {
+            with(NotificationManagerCompat.from(context)) {
+                notify(1001, notification) // Unique ID for this notification
+            }
+        }
+    }
 
     private fun checkNotificationPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

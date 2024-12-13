@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.metroalarm.com.example.metroalarm.NotificationHelper
 
 // so i will pretend i have the logic in place
 // and pass the name of the station as the alarmStation
@@ -141,10 +142,10 @@ fun WideThumbSwitch(
         targetValue = if (isChecked) (trackWidth - slideHeight + 2.dp).coerceAtLeast(0.dp) else 3.dp,
         label = ""
     )
-
+    //part  about notification handling process
     val context = LocalContext.current
     var hasAskedForPermission by remember { mutableStateOf(false) }
-
+    val notificationHelper = NotificationHelper(context)
     // Launcher for notification permission request
     val notificationPermissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -154,7 +155,7 @@ fun WideThumbSwitch(
                 Toast.makeText(context, "Notification permission denied.", Toast.LENGTH_SHORT).show()
             }
         }
-
+    //actual wide thumb switch
     Box(
         modifier = modifier
             .width(trackWidth) // Fixed width for the track
@@ -165,6 +166,7 @@ fun WideThumbSwitch(
                 else MaterialTheme.colorScheme.onTertiary
             ) // Track color changes based on state
             .clickable {
+                //Asking once for notification permission if it isn't granted yet
                 if (!hasAskedForPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                     hasAskedForPermission = true // Ensure permission is asked only once
@@ -181,6 +183,13 @@ fun WideThumbSwitch(
                 ) // Dynamically adjust thumb position
                 .clip(RoundedCornerShape(50)) // Rounded edges for the thumb
                 .background(MaterialTheme.colorScheme.primary) // Thumb color
+        )
+    }
+    if (isChecked){
+        val notificationHelper = NotificationHelper(context)
+        notificationHelper.showHeadsUpNotification(
+            "Alarm Set",
+            "Your metro alarm has been successfully set!"
         )
     }
 }
