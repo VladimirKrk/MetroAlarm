@@ -1,6 +1,7 @@
 package com.example.metroalarm
 
 import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -32,6 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import android.Manifest
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,6 +45,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 // so i will pretend i have the logic in place
@@ -131,9 +137,24 @@ fun WideThumbSwitch(
 ) {
     val slideHeight = 30.dp
     val trackWidth = 60.dp
-    val thumbOffset by animateDpAsState(targetValue = if (isChecked) (trackWidth - slideHeight+2.dp).coerceAtLeast(0.dp) else 3.dp,
+    val thumbOffset by animateDpAsState(
+        targetValue = if (isChecked) (trackWidth - slideHeight + 2.dp).coerceAtLeast(0.dp) else 3.dp,
         label = ""
     )
+
+    val context = LocalContext.current
+    var hasAskedForPermission by remember { mutableStateOf(false) }
+
+    // Launcher for notification permission request
+    val notificationPermissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(context, "Notification permission granted!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Notification permission denied.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     Box(
         modifier = modifier
             .width(trackWidth) // Fixed width for the track
@@ -143,7 +164,13 @@ fun WideThumbSwitch(
                 if (isChecked) MaterialTheme.colorScheme.onSecondary
                 else MaterialTheme.colorScheme.onTertiary
             ) // Track color changes based on state
-            .clickable { onCheckedChange(!isChecked) }, // Toggle state on click
+            .clickable {
+                if (!hasAskedForPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    hasAskedForPermission = true // Ensure permission is asked only once
+                }
+                onCheckedChange(!isChecked) // Change the checked state
+            }, // Toggle state on click
         contentAlignment = Alignment.CenterStart // Default alignment for the thumb
     ) {
         Box(
@@ -157,6 +184,7 @@ fun WideThumbSwitch(
         )
     }
 }
+
 
 @Composable
 fun AlarmContent(modifier: Modifier = Modifier, onEdit: Boolean) {
